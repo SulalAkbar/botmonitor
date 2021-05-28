@@ -13,7 +13,8 @@ from monitor import check_for_change,delete_file,rename_file,products_scraper_fo
 INTERVAL_TIME = 5 
 
 #Enter URL of channel for which you want to recive notifications
-WEB_HOOK = "https://discord.com/api/webhooks/843695641598885918/d3VuT_VZ6EMxxMmRwnVOvu2YxyMNPYWALgsb9soXzkz-lc55cDhLCbpGnJw9cYlMMEA_"
+#https://discord.com/api/webhooks/843695641598885918/d3VuT_VZ6EMxxMmRwnVOvu2YxyMNPYWALgsb9soXzkz-lc55cDhLCbpGnJw9cYlMMEA_
+WEB_HOOK = "https://discord.com/api/webhooks/847318723349315625/zomyj_B_pMEO6iQiZaV9FRAachF-CfsryFWyS8d8ecTaDYHlKUTeNIoayo8-nW4cK2aX"
 
 
 
