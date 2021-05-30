@@ -258,8 +258,6 @@ def send_notification(state,key,value,web_hook_url):
 
 	for i in range(len(variants_available)):
 
-		
-
 		cart_data = cart_data + variants_available[i] +'|  In Stock    |[Open Task]('+ cart_links_list[i] +')\n'
 
 	content = '**'+title+'**\n'+key+'\n**State**\n'+state+'\n**PRICE**\n'+price+'\n\n'+question+'\n\n**Cart**\n\n'+cart_data
