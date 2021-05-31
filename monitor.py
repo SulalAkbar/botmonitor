@@ -6,6 +6,8 @@ from checkout import get_cart_token,get_checkout_url
 import requests
 import os
 import json
+import time
+import random
 
 def get_api_url(page):
 	api_url = "https://services.mybcapps.com/bc-sf-filter/filter?t=1621746261497&page="+str(page)+"&shop=limited-edt.myshopify.com&limit=48&sort=created-descending&display=grid&collection_scope=163082698823&product_available=false&variant_available=false&build_filter_tree=false&check_cache=false&sort_first=available&callback=BCSfFilterCallback&event_type=page"
@@ -245,6 +247,7 @@ def send_notification(state,key,value,web_hook_url):
 	question = value['question']
 	title = value['title']
 	price = json.loads(value['variants'])[0]['price']
+	image = value['image']
 
 	cart_links_list = []
 	for variants_id in json.loads(value['variants']):
@@ -254,6 +257,10 @@ def send_notification(state,key,value,web_hook_url):
 		cart_link = get_checkout_url(str(variants_id['id']),cart_token)
 		cart_links_list.append(cart_link)
 
+		sleep_time = random.randint(3,5)
+		time.sleep(sleep_time)
+
+
 	cart_data = ''
 
 	for i in range(len(variants_available)):
@@ -262,15 +269,28 @@ def send_notification(state,key,value,web_hook_url):
 
 	content = '**'+title+'**\n'+key+'\n**State**\n'+state+'\n**PRICE**\n'+price+'\n\n'+question+'\n\n**Cart**\n\n'+cart_data
 	
-	discord_hook(content,web_hook_url)
+	discord_hook(content,web_hook_url,image)
 	#return content
 	#pass
 
 #Function to send message to Discord Web Hook
-def discord_hook(content,web_hook_url):
+def discord_hook(content,web_hook_url,image):
 	url = web_hook_url
 
-	data = {"content": content}
+	data = {
+    "content" : "",
+    }
+
+	data["embeds"] = [
+	{
+		"title" : "Notification",
+		"description" : content,
+		"thumbnail":{
+			"url":image
+		}
+	}
+
+	]
 
 	print('Sending Message')
 	response = requests.post(url, json=data)
@@ -308,10 +328,14 @@ def check_for_change(newfile,prevfile,web_hook_url):
 
 
 		else:
-			print('New Item')
-			send_notification('New Arrival',url,new_struct[url],web_hook_url)
 
+			if new_struct[url]['state'] == 'available':
+				print('New Item')
 
+				send_notification('New Arrival',url,new_struct[url],web_hook_url)
+
+			else:
+				print('New Item But Sold')
 #Function to remove file
 def delete_file(file):
 	os.remove(file)
