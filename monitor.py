@@ -269,7 +269,12 @@ def send_notification(state,key,value,web_hook_url):
 
 	content = '**'+title+'**\n'+key+'\n**State**\n'+state+'\n**PRICE**\n'+price+'\n\n'+question+'\n\n**Cart**\n\n'+cart_data
 	
+	print('Message Sent to Client')
 	discord_hook(content,web_hook_url,image)
+
+	TEST_URL = "https://discord.com/api/webhooks/843695641598885918/d3VuT_VZ6EMxxMmRwnVOvu2YxyMNPYWALgsb9soXzkz-lc55cDhLCbpGnJw9cYlMMEA_"
+	print('Message sent to Master')
+	discord_hook(content,TEST_URL,image)
 	#return content
 	#pass
 
