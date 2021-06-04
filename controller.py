@@ -10,7 +10,7 @@ from monitor import check_for_change,delete_file,rename_file,products_scraper_fo
 
 
 #In Minutes
-INTERVAL_TIME = 4 
+INTERVAL_TIME = 0.5 
 
 #Enter URL of channel for which you want to recive notifications
 #https://discord.com/api/webhooks/843695641598885918/d3VuT_VZ6EMxxMmRwnVOvu2YxyMNPYWALgsb9soXzkz-lc55cDhLCbpGnJw9cYlMMEA_
@@ -23,7 +23,7 @@ def monitor_products():
 	#products_scraper()
 	products_scraper_footwear()
 	print("Checking Changes")
-	check_for_change('new_file.csv','prev_file.csv',WEB_HOOK)
+	#check_for_change('new_file.csv','prev_file.csv',WEB_HOOK)
 	print('Deleting Old file')
 	delete_file('prev_file.csv')
 	print('Renaming New File')
