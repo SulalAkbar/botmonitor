@@ -409,6 +409,8 @@ def extract_json(response):
 
 def products_scraper_footwear():
 
+	products_count = 0
+
 	print("Getting First Page '/footwear' :")
 	response = get_response(get_api_url(1),products_page_header)
 	resp_json = extract_json(response)
@@ -417,6 +419,8 @@ def products_scraper_footwear():
 
 		product_data = product_parser(product)
 		csv_writer(product_data)
+
+		products_count = products_count + 1
 
 	pages = resp_json['pages']
 
@@ -429,6 +433,10 @@ def products_scraper_footwear():
 
 			product_data = product_parser(product)
 			csv_writer(product_data)
+
+			products_count = products_count + 1
+
+	print("**Total Products Found** : ",products_count)
 
 
 
