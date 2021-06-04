@@ -23,7 +23,7 @@ def monitor_products():
 	#products_scraper()
 	products_scraper_footwear()
 	print("Checking Changes")
-	#check_for_change('new_file.csv','prev_file.csv',WEB_HOOK)
+	check_for_change('new_file.csv','prev_file.csv',WEB_HOOK)
 	print('Deleting Old file')
 	delete_file('prev_file.csv')
 	print('Renaming New File')

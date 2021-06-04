@@ -10,7 +10,7 @@ import time
 import random
 
 def get_api_url(page):
-	api_url = "https://services.mybcapps.com/bc-sf-filter/filter?t=1621746261497&page="+str(page)+"&shop=limited-edt.myshopify.com&limit=48&sort=created-descending&display=grid&collection_scope=163082698823&product_available=false&variant_available=false&build_filter_tree=false&check_cache=false&sort_first=available&callback=BCSfFilterCallback&event_type=page"
+	api_url = "https://services.mybcapps.com/bc-sf-filter/filter?t=1621746261497&page="+str(page)+"&shop=limited-edt.myshopify.com&limit=70&sort=created-descending&display=grid&collection_scope=163082698823&product_available=false&variant_available=false&build_filter_tree=false&check_cache=false&sort_first=available&callback=BCSfFilterCallback&event_type=page"
 
 	return api_url 
 
@@ -368,7 +368,7 @@ def extract_json(response):
 	resp_json = json.loads(text[1:-2])
 
 	total_products = resp_json['total_product']
-	pages = total_products/48
+	pages = total_products/70
 	if type(pages) == float:
 		pages = int(pages) + 1
 
