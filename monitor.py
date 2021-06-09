@@ -312,7 +312,7 @@ def check_for_change(newfile,prevfile,web_hook_url):
 	#Logic for checking changes
 	for url in new_struct:
 		if url in prev_struct:
-			print('Yes')
+			#print('Yes')
 
 			if new_struct[url]['state'] == 'available':
 
