@@ -8,6 +8,7 @@ import os
 import json
 import time
 import random
+import concurrent.futures
 
 def get_api_url(page):
 	api_url = "https://services.mybcapps.com/bc-sf-filter/filter?t=1621746261497&page="+str(page)+"&shop=limited-edt.myshopify.com&limit=70&sort=created-descending&display=grid&collection_scope=163082698823&product_available=false&variant_available=false&build_filter_tree=false&check_cache=false&sort_first=available&callback=BCSfFilterCallback&event_type=page"
@@ -274,7 +275,7 @@ def send_notification(state,key,value,web_hook_url):
 
 	TEST_URL = "https://discord.com/api/webhooks/843695641598885918/d3VuT_VZ6EMxxMmRwnVOvu2YxyMNPYWALgsb9soXzkz-lc55cDhLCbpGnJw9cYlMMEA_"
 	print('Message sent to Master')
-	discord_hook(content,TEST_URL,image)
+	#discord_hook(content,TEST_URL,image)
 	#return content
 	#pass
 
@@ -424,19 +425,30 @@ def products_scraper_footwear():
 
 	pages = resp_json['pages']
 
-	for page in range(2,pages+1):
-		print("Getting Next Page :",page)
-		response = get_response(get_api_url(page),products_page_header)
-		resp_json = extract_json(response)
-		products = resp_json['json']['products']
-		for product in products:
+	print("Now Beginning Multi Threading ...")
+	#Now Starts Multi Threading
+	with concurrent.futures.ThreadPoolExecutor(max_workers=6) as executor:
 
-			product_data = product_parser(product)
-			csv_writer(product_data)
+		#future_to_url = {executor.submit(load_url, url, 60): url for url in URLS}
+		jobs = []
+		for page in range(2,pages+1):
+			print("Getting Next Page :",page)
+			#response = get_response(get_api_url(page),products_page_header)
+			jobs.append(executor.submit(get_response, get_api_url(page),products_page_header))
 
-			products_count = products_count + 1
+		for job in concurrent.futures.as_completed(jobs):
+			response = job.result()
 
-	print("**Total Products Found** : ",products_count)
+			resp_json = extract_json(response)
+			products = resp_json['json']['products']
+			for product in products:
+
+				product_data = product_parser(product)
+				csv_writer(product_data)
+
+				products_count = products_count + 1
+
+		print("**Total Products Found** : ",products_count)
 
 
 
